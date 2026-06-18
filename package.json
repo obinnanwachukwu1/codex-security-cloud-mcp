@@ -1,0 +1,28 @@
+{
+  "name": "codex-security-cloud-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MCP server for the Codex Security Cloud service.",
+  "type": "module",
+  "bin": {
+    "codex-security-cloud-mcp": "./dist/server.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node ./dist/server.js",
+    "dev": "tsx ./src/server.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.3",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
