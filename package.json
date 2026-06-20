@@ -1,6 +1,6 @@
 {
   "name": "codex-security-cloud-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MCP server for the Codex Security Cloud service.",
   "license": "MIT",
   "type": "module",

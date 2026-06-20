@@ -15,7 +15,7 @@ export type CodexAuth = {
 };
 
 export async function readCodexAuth(): Promise<CodexAuth> {
-  const authPath = process.env.CODEX_AUTH_JSON_PATH ?? join(homedir(), ".codex", "auth.json");
+  const authPath = join(homedir(), ".codex", "auth.json");
   let parsed: CodexAuthJson;
   try {
     parsed = JSON.parse(await readFile(authPath, "utf8")) as CodexAuthJson;
