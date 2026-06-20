@@ -191,6 +191,15 @@ async function preflightRepo(repoPath: string, touchedFiles: string[]): Promise<
     };
   }
 
+  const unsafeFiles = touchedFiles.filter((file) => !isSafeRepoRelativePath(file));
+  if (unsafeFiles.length > 0) {
+    return {
+      ok: false,
+      message: "Generated patch contains unsafe file paths.",
+      details: unsafeFiles.join("\n"),
+    };
+  }
+
   const status = await git(["status", "--porcelain", "--", ...touchedFiles], repoPath);
   if (status.code !== 0) {
     return {
@@ -208,6 +217,11 @@ async function preflightRepo(repoPath: string, touchedFiles: string[]): Promise<
   }
 
   return { ok: true };
+}
+
+function isSafeRepoRelativePath(filePath: string): boolean {
+  if (!filePath || filePath.startsWith("/") || filePath.includes("\0")) return false;
+  return !filePath.split(/[\\/]+/).some((part) => part === "..");
 }
 
 async function gitText(args: string[], cwd: string): Promise<string> {

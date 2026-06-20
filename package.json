@@ -1,14 +1,39 @@
 {
   "name": "codex-security-cloud-mcp",
   "version": "0.1.0",
-  "private": true,
   "description": "MCP server for the Codex Security Cloud service.",
+  "license": "MIT",
   "type": "module",
+  "author": "Obinna Nwachukwu",
+  "homepage": "https://github.com/obinnanwachukwu1/codex-security-cloud-mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/obinnanwachukwu1/codex-security-cloud-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/obinnanwachukwu1/codex-security-cloud-mcp/issues"
+  },
+  "keywords": [
+    "codex",
+    "mcp",
+    "model-context-protocol",
+    "security",
+    "chatgpt"
+  ],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "bin": {
     "codex-security-cloud-mcp": "./dist/server.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "prepack": "npm run build",
     "start": "node ./dist/server.js",
     "dev": "tsx ./src/server.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"

@@ -2,7 +2,46 @@
 
 MCP server for the Codex Security Cloud service exposed by ChatGPT/Codex Cloud.
 
-The server assumes the user already has Codex installed and authenticated. It reads the existing Codex auth file and does not implement a separate login flow.
+The server assumes the user already has Codex installed and authenticated. It reads the existing Codex auth file and does not implement a separate login flow. It never asks users to paste tokens.
+
+## Install
+
+Prerequisites:
+
+- Node.js 20 or newer
+- Codex installed and authenticated with `codex login`
+- Access to Codex Security Cloud for the repositories you want to inspect
+
+Install for Codex:
+
+```bash
+codex mcp add codex-security-cloud -- npx -y codex-security-cloud-mcp@latest
+```
+
+Manual Codex configuration:
+
+```toml
+[mcp_servers.codex-security-cloud]
+command = "npx"
+args = ["-y", "codex-security-cloud-mcp@latest"]
+enabled = true
+```
+
+For other MCP clients, configure a stdio server command:
+
+```bash
+npx -y codex-security-cloud-mcp@latest
+```
+
+Quick smoke test after installing:
+
+```text
+Use the Codex Security Cloud MCP to list one open finding for my repositories.
+```
+
+## Safety
+
+This MCP can read Codex Security Cloud findings, close/reopen findings, request site-side PRs, and apply generated patches to local git repositories. `apply_generated_patch` refuses staged changes, refuses touched files with local changes, runs `git apply --check` first, and creates a local commit for rollback if the patch applies.
 
 ## Tools
 
@@ -33,17 +72,4 @@ Commit: <sha>
 npm install
 npm run build
 node ./dist/server.js
-```
-
-## MCP Configuration
-
-```json
-{
-  "mcpServers": {
-    "codex-security-cloud": {
-      "command": "node",
-      "args": ["/Users/obinnanwachukwu/Code/codex-security-cloud-mcp/dist/server.js"]
-    }
-  }
-}
 ```
