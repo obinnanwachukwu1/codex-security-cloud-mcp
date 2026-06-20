@@ -16,7 +16,7 @@ import {
 const server = new McpServer({
   name: "codex-security-cloud-mcp",
   title: "Codex Security Cloud MCP",
-  version: "0.1.0",
+  version: "0.1.1",
 });
 
 const client = new AardvarkClient();
@@ -67,12 +67,25 @@ server.registerTool(
   {
     title: "Get Finding",
     description:
-      "Fetch one Codex Security Cloud finding. Compact by default; opt into generated patch diff or deeper evidence only when needed.",
+      "Fetch one Codex Security Cloud finding. Compact by default: includes summary, relevant-line locations, generated patch metadata, and site PR metadata. Do not request evidence or patch diff just to check whether a generated patch exists.",
     inputSchema: z.object({
       findingId: findingIdSchema,
-      includePatchDiff: z.boolean().optional(),
-      includeEvidence: z.boolean().optional(),
-      includeDescription: z.boolean().optional(),
+      includePatchDiff: z
+        .boolean()
+        .optional()
+        .describe(
+          "Default false. Heavy unified diff; only set true when the user needs to inspect or manually repair the generated patch. apply_generated_patch does not need this."
+        ),
+      includeEvidence: z
+        .boolean()
+        .optional()
+        .describe(
+          "Default false. Heavy evidence payload; includes source snippets, validation/fix reports, and attack-path details. Only set true when the user explicitly asks for evidence or validation detail."
+        ),
+      includeDescription: z
+        .boolean()
+        .optional()
+        .describe("Default false. Full raw finding description; the compact summary is returned by default."),
     }),
   },
   async (args) =>
@@ -133,8 +146,13 @@ server.registerTool(
       "Apply an already-generated Codex Security Cloud patch to a local git repo, commit it, and optionally close the finding as fixed.",
     inputSchema: z.object({
       findingId: findingIdSchema,
-      repoPath: z.string().min(1),
-      autoClose: z.boolean().optional(),
+      repoPath: z.string().min(1).describe("Local git repository path where the patch should be applied."),
+      autoClose: z
+        .boolean()
+        .optional()
+        .describe(
+          "Default false. When true, close the Codex Security Cloud finding as fixed after a clean apply and successful local commit."
+        ),
     }),
   },
   async (args) =>
