@@ -29,7 +29,7 @@
     "access": "public"
   },
   "bin": {
-    "codex-security-cloud-mcp": "./dist/server.js"
+    "codex-security-cloud-mcp": "dist/server.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
