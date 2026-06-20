@@ -2,7 +2,7 @@
 
 MCP server for the Codex Security Cloud service exposed by ChatGPT/Codex Cloud.
 
-The server assumes the user already has Codex installed and authenticated. It reads the existing Codex auth file and does not implement a separate login flow. It never asks users to paste tokens.
+The server assumes the user already has Codex installed and authenticated. It reads the existing Codex auth file and does not implement a separate login flow. By default it reads `~/.codex/auth.json`; set `CODEX_AUTH_JSON_PATH` only if your Codex auth file lives somewhere else. It never asks users to paste tokens.
 
 ## Install
 
